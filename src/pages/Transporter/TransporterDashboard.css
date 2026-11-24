@@ -1,0 +1,101 @@
+.TransporterDashboard-container {
+  padding: 2rem;
+  background-color: #f4f4f9;
+}
+
+.TransporterDashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.stats-container {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stats-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 30%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.stats-card .amount {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007BFF; /* Blue color */
+}
+
+
+/* Flexbox Container for Top Drivers and Chart */
+.top-drivers-and-chart {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.top-drivers-card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 30%; /* Adjust width for side-by-side */
+}
+
+.top-drivers-card h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.top-drivers-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.top-drivers-card li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.top-drivers-card img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+}
+
+.driver-monthly-revenue {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 67%; /* Adjust width for side-by-side */
+}
+
+.driver-monthly-revenue h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .top-drivers-and-chart {
+    flex-direction: column;
+  }
+
+  .top-drivers-card, .driver-monthly-revenue {
+    width: 100%;
+  }
+}
