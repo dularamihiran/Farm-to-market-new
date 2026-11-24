@@ -41,13 +41,21 @@ const socketHandler = require('./socket');
 
 const app = express();
 const server = http.createServer(app);
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://sandbox.payhere.lk",
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : [])
+];
+const isAllowedOrigin = (origin, cb) => {
+  if (!origin || allowedOrigins.includes(origin) || /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) {
+    return cb(null, true);
+  }
+  return cb(new Error('Not allowed by CORS'));
+};
+
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://harvest-software-mx6t.vercel.app",
-      "https://sandbox.payhere.lk"
-    ],
+    origin: isAllowedOrigin,
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
@@ -57,13 +65,9 @@ socketHandler(io);
 
 // Middleware
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://harvest-software-mx6t.vercel.app",
-    "https://sandbox.payhere.lk"
-  ],
+  origin: isAllowedOrigin,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type"]
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));

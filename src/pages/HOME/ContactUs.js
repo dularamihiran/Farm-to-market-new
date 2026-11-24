@@ -9,6 +9,7 @@ import {
   Snackbar
 } from '@mui/material';
 import { Send, CheckCircle, Error } from '@mui/icons-material';
+import { API_URL } from '../../config/apiBase';
 
 const ContactUs = () => {
   const contactUsRef = useRef(null);
@@ -68,7 +69,7 @@ const ContactUs = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact/submit', {
+      const response = await fetch(`${API_URL}/api/contact/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

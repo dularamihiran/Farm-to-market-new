@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './AdminAnalyticsDashboard.css';
+import { API_URL } from '../config/apiBase';
 
 const AdminAnalyticsDashboard = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
@@ -16,7 +17,7 @@ const AdminAnalyticsDashboard = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/admin/analytics', {
+      const response = await axios.get(`${API_URL}/api/admin/analytics`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

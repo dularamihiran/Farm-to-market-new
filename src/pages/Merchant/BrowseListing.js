@@ -42,6 +42,7 @@ import {
   joinUserRoom,
   disconnectSocket,
 } from "../../socket";
+import { API_URL } from '../../config/apiBase';
 
 const BrowseListing = () => {
   const [fetchedProducts, setFetchedProducts] = useState([]);
@@ -107,7 +108,7 @@ const BrowseListing = () => {
   useEffect(() => {
     const fetchDistricts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/products/districts");
+        const response = await axios.get(`${API_URL}/api/products/districts`);
         const availableDistricts = (response.data || []).filter(district => district != null && district !== "");
         
         // Merge API districts with the complete Sri Lankan districts list
@@ -135,7 +136,7 @@ const BrowseListing = () => {
 
     const fetchProductTypes = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/products/types");
+        const response = await axios.get(`${API_URL}/api/products/types`);
         const availableTypes = (response.data || []).filter(type => type != null && type !== "");
         setProductTypes(["All Types", ...availableTypes]);
       } catch (error) {
@@ -147,7 +148,7 @@ const BrowseListing = () => {
 
     const fetchPopularTerms = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/products/search/popular");
+        const response = await axios.get(`${API_URL}/api/products/search/popular`);
         // Filter out null/undefined values and ensure proper structure
         const terms = (response.data || []).filter(term => 
           term != null && 
@@ -174,7 +175,7 @@ const BrowseListing = () => {
 
     try {
       setSearchLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/products/search/suggestions?q=${encodeURIComponent(query)}`);
+      const response = await axios.get(`${API_URL}/api/products/search/suggestions?q=${encodeURIComponent(query)}`);
       // Filter out null, undefined, and empty values
       const suggestions = (response.data || []).filter(item => item != null && item !== "");
       setSearchSuggestions(suggestions);
@@ -214,7 +215,7 @@ const BrowseListing = () => {
       if (typeFilter !== "All Types") params.append("type", typeFilter);
       if (maxPrice && maxPrice > 0) params.append("maxPrice", maxPrice);
 
-      const res = await axios.get(`http://localhost:5000/api/products?${params}`);
+      const res = await axios.get(`${API_URL}/api/products?${params}`);
       const endTime = performance.now();
       
       if (res.data?.products) {
@@ -287,7 +288,7 @@ const BrowseListing = () => {
     setSeeMoreOpen(true);
     setLoadingFarmer(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/users/${product.farmerID}`);
+      const res = await axios.get(`${API_URL}/api/users/${product.farmerID}`);
       setFarmerInfo(res.data);
     } catch (error) {
       console.error("Failed to fetch farmer info:", error);

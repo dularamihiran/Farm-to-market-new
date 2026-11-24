@@ -35,6 +35,7 @@ import {
   Cancel as CancelIcon,
   Schedule as ScheduleIcon
 } from "@mui/icons-material";
+import { API_URL } from '../../config/apiBase';
 
 const statusStyles = {
   Done: { bgcolor: '#43a047', color: '#fff' }, // Green
@@ -63,13 +64,13 @@ const OrderPage = () => {
         setLoading(true);
         setError(null);
         const farmerId = localStorage.getItem("user_id");
-        const response = await axios.get(`http://localhost:5000/api/bids?farmerId=${farmerId}`);
+        const response = await axios.get(`${API_URL}/api/bids?farmerId=${farmerId}`);
         const bids = response.data;
 
         // Fetch all confirmed bids to check payment status
         let confirmedBidsMap = {};
         try {
-          const confirmedBidsResponse = await axios.get(`http://localhost:5000/api/confirmedbids`);
+          const confirmedBidsResponse = await axios.get(`${API_URL}/api/confirmedbids`);
           const confirmedBids = confirmedBidsResponse.data || [];
           // Create a map by farmerId + merchantId for quick lookup
           confirmedBids.forEach(cb => {
@@ -84,7 +85,7 @@ const OrderPage = () => {
         let collectionsMap = {};
         try {
           // Now using the new farmer collections endpoint
-          const collectionsResponse = await axios.get(`http://localhost:5000/api/collections/farmer/${farmerId}`);
+          const collectionsResponse = await axios.get(`${API_URL}/api/collections/farmer/${farmerId}`);
           const collections = collectionsResponse.data || [];
           collections.forEach(collection => {
             if (collection.bidId) {
@@ -101,7 +102,7 @@ const OrderPage = () => {
             let merchantPhone = "N/A";
             if (bid.merchantId) {
               try {
-                const merchantResponse = await axios.get(`http://localhost:5000/api/users/${bid.merchantId}`);
+                const merchantResponse = await axios.get(`${API_URL}/api/users/${bid.merchantId}`);
                 const merchant = merchantResponse.data;
                 merchantName = merchant.name || "Anonymous";
                 merchantPhone = merchant.phone || "N/A";
@@ -207,7 +208,7 @@ const OrderPage = () => {
         default:
           bidStatus = newStatus;
       }
-      await axios.put(`http://localhost:5000/api/bids/status/${id}`, { status: bidStatus });
+      await axios.put(`${API_URL}/api/bids/status/${id}`, { status: bidStatus });
       setOrders(
         orders.map((order) =>
           order.id === id ? { ...order, status: newStatus } : order

@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
 import './ChatBox.css';
+import { API_URL } from '../config/apiBase';
 
-const socket = io('http://localhost:5000');
+const socket = io(API_URL);
 
 const ChatBox = ({ currentUserId, targetUserId, targetUser }) => {
   const [messages, setMessages] = useState([]);
@@ -11,7 +12,7 @@ const ChatBox = ({ currentUserId, targetUserId, targetUser }) => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/messages/${currentUserId}/${targetUserId}`)
+    axios.get(`${API_URL}/api/messages/${currentUserId}/${targetUserId}`)
       .then(res => setMessages(res.data))
       .catch(err => console.error('Error fetching messages:', err));
   }, [currentUserId, targetUserId]);
@@ -19,7 +20,7 @@ const ChatBox = ({ currentUserId, targetUserId, targetUser }) => {
   // Mark messages as read when chat is opened
   useEffect(() => {
     if (currentUserId && targetUserId) {
-      axios.put(`http://localhost:5000/api/messages/read/${currentUserId}/${targetUserId}`)
+      axios.put(`${API_URL}/api/messages/read/${currentUserId}/${targetUserId}`)
         .catch(err => console.error('Error marking messages as read:', err));
     }
   }, [currentUserId, targetUserId]);
@@ -36,7 +37,7 @@ const ChatBox = ({ currentUserId, targetUserId, targetUser }) => {
         
         // Mark message as read if we're the receiver
         if (message.receiverId === currentUserId) {
-          axios.put(`http://localhost:5000/api/messages/read/${currentUserId}/${message.senderId}`)
+          axios.put(`${API_URL}/api/messages/read/${currentUserId}/${message.senderId}`)
             .catch(err => console.error('Error marking message as read:', err));
         }
       }

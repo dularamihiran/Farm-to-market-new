@@ -11,6 +11,7 @@ import axios from "axios";
 import { useAuth0 } from '../../auth/AuthContext';
 import LocationDisplay from "../../components/LocationDisplay";
 import { getBookingsForMerchant } from "../../services/api";
+import { API_URL } from '../../config/apiBase';
 
 const FindVehicles = lazy(() => import("../../components/FindVehicles"));
 
@@ -44,7 +45,7 @@ const Collection = () => {
             // First try to get data from the new collections API
             let collections = [];
             try {
-                const collectionsResponse = await axios.get(`http://localhost:5000/api/collections/merchant/${merchantId}`);
+                const collectionsResponse = await axios.get(`${API_URL}/api/collections/merchant/${merchantId}`);
                 collections = collectionsResponse.data || [];
                 console.log("Collections from new API:", collections);
             } catch (collectionsError) {
@@ -55,7 +56,7 @@ const Collection = () => {
             // Also get data from the confirmed bids API for fallback
             let confirmedBids = [];
             try {
-                const confirmedResponse = await axios.get(`http://localhost:5000/api/confirmedbids/merchant/${merchantId}`);
+                const confirmedResponse = await axios.get(`${API_URL}/api/confirmedbids/merchant/${merchantId}`);
                 confirmedBids = confirmedResponse.data || [];
                 console.log("Confirmed bids from legacy API:", confirmedBids);
             } catch (confirmedError) {
@@ -322,7 +323,7 @@ const Collection = () => {
             for (const order of selectedOrdersData) {
                 try {
                     // Fetch farmer details (transporter in this case)
-                    const farmerResponse = await axios.get(`http://localhost:5000/api/users/${order.farmerId}`);
+                    const farmerResponse = await axios.get(`${API_URL}/api/users/${order.farmerId}`);
                     const farmerData = farmerResponse.data;
                     
                     // Fetch product details to get location
@@ -331,7 +332,7 @@ const Collection = () => {
                         productLocation = order.productLocation;
                     } else if (order.items && order.items.length > 0) {
                         try {
-                            const productResponse = await axios.get(`http://localhost:5000/api/products/${order.items[0].productId}`);
+                            const productResponse = await axios.get(`${API_URL}/api/products/${order.items[0].productId}`);
                             productLocation = productResponse.data.location;
                         } catch (productError) {
                             console.error("Error fetching product location:", productError);

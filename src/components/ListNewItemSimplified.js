@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth0 } from '../auth/AuthContext';
 import LocationSelector from "../../components/LocationSelector";
 import useLocationData from "../../hooks/useLocationData";
+import { API_URL } from '../config/apiBase';
 
 const ListNewItem = () => {
   const [formData, setFormData] = useState({
@@ -38,7 +39,7 @@ const ListNewItem = () => {
   const saveUserLocation = async (locationData) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/users/${user.sub}/location`,
+        `${API_URL}/api/users/${user.sub}/location`,
         {
           coordinates: locationData.coordinates,
           address: locationData.address
@@ -104,7 +105,7 @@ const ListNewItem = () => {
       console.log("Submitting product:", productData);
 
       const response = await axios.post(
-        "http://localhost:5000/api/products",
+        `${API_URL}/api/products`,
         productData,
         {
           headers: {

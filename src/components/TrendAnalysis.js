@@ -27,6 +27,7 @@ import {
   Clear as ClearIcon
 } from '@mui/icons-material';
 import axios from 'axios';
+import { API_URL } from '../config/apiBase';
 
 const TrendAnalysis = () => {
   const [products, setProducts] = useState([]);
@@ -177,7 +178,7 @@ const TrendAnalysis = () => {
       setError(null);
       
       // Original simple product listing
-      const response = await axios.get(`http://localhost:5000/api/products?limit=1000`);
+      const response = await axios.get(`${API_URL}/api/products?limit=1000`);
       const productsData = response.data.products || response.data || [];
       
       // Store raw data for time-based filtering

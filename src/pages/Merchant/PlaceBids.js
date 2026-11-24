@@ -21,6 +21,7 @@ import {
 } from "@mui/icons-material";
 import { useCart } from "../../context/CartContext";
 import axios from "axios";
+import { API_URL } from '../../config/apiBase';
 
 const PlaceBids = () => {
   const { cartItems, removeFromCart, updateCartItem } = useCart();
@@ -105,7 +106,7 @@ const PlaceBids = () => {
       }
 
       // Fetch merchant details from the backend
-      const merchantResponse = await axios.get(`http://localhost:5000/api/users/${authenticatedMerchantId}`);
+      const merchantResponse = await axios.get(`${API_URL}/api/users/${authenticatedMerchantId}`);
       const merchant = merchantResponse.data;
 
       if (!merchant) {
@@ -142,7 +143,7 @@ const PlaceBids = () => {
         throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
       }
 
-      const response = await axios.post("http://localhost:5000/api/bids", bidData);
+      const response = await axios.post(`${API_URL}/api/bids`, bidData);
 
       // Update the product in the cart with the new quantity
       if (response.data.updatedProduct) {
@@ -173,7 +174,7 @@ const PlaceBids = () => {
   // Refresh product in cart
   const refreshCartProduct = useCallback(async (productId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/products/${productId}`);
+      const response = await axios.get(`${API_URL}/api/products/${productId}`);
       const updatedProduct = response.data;
       updateCartItem(productId, { ...updatedProduct, quantity: updatedProduct.quantity });
     } catch (error) {

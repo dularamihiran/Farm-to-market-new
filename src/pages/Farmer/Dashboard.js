@@ -34,6 +34,7 @@ import {
 } from '@mui/icons-material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import TrendAnalysis from "../../components/TrendAnalysis";
+import { API_URL } from '../../config/apiBase';
 
 const Dashboard = () => {
   const [revenueData, setRevenueData] = useState({
@@ -59,7 +60,7 @@ const Dashboard = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/revenue/farmer/${user.sub}`
+          `${API_URL}/api/revenue/farmer/${user.sub}`
         );
         setRevenueData(response.data);
         setError(null);
@@ -73,7 +74,7 @@ const Dashboard = () => {
 
     const fetchReviewsData = async () => {
       try {
-        const reviewsResponse = await axios.get(`http://localhost:5000/api/reviews/farmer/${user.sub}`);
+        const reviewsResponse = await axios.get(`${API_URL}/api/reviews/farmer/${user.sub}`);
         console.log('Reviews API response:', reviewsResponse.data);
         
         // The API returns { reviews: [...] }, so extract the reviews array
@@ -100,7 +101,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user?.sub) {
-      axios.get(`http://localhost:5000/api/users/${user.sub}`)
+      axios.get(`${API_URL}/api/users/${user.sub}`)
         .then(res => {
           console.log('User data received:', res.data);
           setFarmerRating(res.data.farmerRating || 0);
@@ -211,7 +212,7 @@ const Dashboard = () => {
                 setLoading(true);
                 // Retry fetch
                 if (user?.sub) {
-                  axios.get(`http://localhost:5000/api/revenue/farmer/${user.sub}`)
+                  axios.get(`${API_URL}/api/revenue/farmer/${user.sub}`)
                     .then(response => {
                       setRevenueData(response.data);
                       setError(null);

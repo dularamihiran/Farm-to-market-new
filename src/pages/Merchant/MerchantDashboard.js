@@ -38,6 +38,7 @@ import {
   Refresh as RefreshIcon
 } from '@mui/icons-material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { API_URL } from '../../config/apiBase';
 
 const MerchantDashboard = () => {
   const [dashboardData, setDashboardData] = useState({
@@ -155,7 +156,7 @@ const MerchantDashboard = () => {
       
       // First, test if the backend is reachable
       try {
-        const testResponse = await axios.get('http://localhost:5000/api/merchant/test');
+        const testResponse = await axios.get(`${API_URL}/api/merchant/test`);
         console.log('Backend test response:', testResponse.data);
       } catch (testError) {
         console.error('Backend test failed:', testError);
@@ -166,7 +167,7 @@ const MerchantDashboard = () => {
       
       // Encode the merchantId properly
       const encodedMerchantId = encodeURIComponent(user.sub);
-      const url = `http://localhost:5000/api/merchant/dashboard/${encodedMerchantId}`;
+      const url = `${API_URL}/api/merchant/dashboard/${encodedMerchantId}`;
       console.log('Fetching dashboard data from:', url);
       
       const response = await axios.get(url);
@@ -254,7 +255,7 @@ const MerchantDashboard = () => {
       setReviewsLoading(true);
       console.log('Fetching reviews for farmer ID:', farmerId);
       
-      const response = await axios.get(`http://localhost:5000/api/reviews/farmer/${farmerId}`);
+      const response = await axios.get(`${API_URL}/api/reviews/farmer/${farmerId}`);
       console.log('Reviews API response:', response.data);
       
       const reviewsData = response.data.reviews || [];

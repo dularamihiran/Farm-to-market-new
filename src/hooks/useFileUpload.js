@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config/apiBase';
 
 export const useFileUpload = (currentUserId, targetUserId, targetUser) => {
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -91,7 +92,7 @@ export const useFileUpload = (currentUserId, targetUserId, targetUser) => {
         formData.append('file', file);
         formData.append('userId', currentUserId);
 
-        const response = await axios.post('http://localhost:5000/api/files/upload/single', formData, {
+        const response = await axios.post(`${API_URL}/api/files/upload/single`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },

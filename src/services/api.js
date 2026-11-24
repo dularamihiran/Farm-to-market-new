@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_URL } from '../config/apiBase';
 
 // Get the token from localStorage
 const getToken = () => {
@@ -7,7 +8,7 @@ const getToken = () => {
 };
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  baseURL: process.env.REACT_APP_API_URL || `${API_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -28,7 +29,7 @@ api.interceptors.request.use(
 );
 
 // Adjust the base URL according to your backend setup
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = `${API_URL}/api`;
 
 export const addVehicle = async (vehicleData) => {
   const formData = new FormData();
@@ -43,7 +44,7 @@ export const addVehicle = async (vehicleData) => {
   }
 
   try {
-    const response = await axios.post('http://localhost:5000/api/vehicles', formData, {
+    const response = await axios.post(`${API_URL}/api/vehicles`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
@@ -80,7 +81,7 @@ export const updateVehicle = async (id, vehicleData) => {
   }
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/vehicles/${id}`,
+      `${API_URL}/api/vehicles/${id}`,
       formData,
       {
         headers: {
@@ -96,7 +97,7 @@ export const updateVehicle = async (id, vehicleData) => {
 
 export const deleteVehicle = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:5000/api/vehicles/${id}`);
+    const response = await axios.delete(`${API_URL}/api/vehicles/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -104,17 +105,17 @@ export const deleteVehicle = async (id) => {
 };
 
 export const getBookingsForTransporter = async (transporterId) => {
-  const res = await axios.get(`http://localhost:5000/api/bookings/transporter/${transporterId}`);
+  const res = await axios.get(`${API_URL}/api/bookings/transporter/${transporterId}`);
   return res.data;
 };
 
 export const getBookingsForMerchant = async (merchantId) => {
-  const res = await axios.get(`http://localhost:5000/api/bookings/merchant/${merchantId}`);
+  const res = await axios.get(`${API_URL}/api/bookings/merchant/${merchantId}`);
   return res.data;
 };
 
 export const createBooking = async (bookingData) => {
-  const response = await axios.post('http://localhost:5000/api/bookings', bookingData);
+  const response = await axios.post(`${API_URL}/api/bookings`, bookingData);
   return response.data;
 };
 

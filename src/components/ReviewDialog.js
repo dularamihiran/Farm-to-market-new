@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { API_URL } from '../config/apiBase';
 
 export default function ReviewDialog({
   open,
@@ -26,7 +27,7 @@ export default function ReviewDialog({
     try {
       console.log("Submitting review:", { farmerId, merchantId, orderId, rating, comment });
       
-      const response = await axios.post("http://localhost:5000/api/reviews", {
+      const response = await axios.post(`${API_URL}/api/reviews`, {
         farmerId,
         merchantId,
         orderId,

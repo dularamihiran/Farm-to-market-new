@@ -34,8 +34,9 @@ import {
   getNotificationDisplayData,
   formatNotificationTime
 } from '../utils/notificationUtils';
+import { API_URL } from '../config/apiBase';
 
-const socket = io('http://localhost:5000');
+const socket = io(API_URL);
 
 const NotificationBell = () => {
   const { user } = useAuth0();
@@ -67,8 +68,8 @@ const NotificationBell = () => {
         });
         
         const [notificationsRes, unreadRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/notifications/${userId}`),
-          axios.get(`http://localhost:5000/api/notifications/unread/${userId}`)
+          axios.get(`${API_URL}/api/notifications/${userId}`),
+          axios.get(`${API_URL}/api/notifications/unread/${userId}`)
         ]);
 
         console.log('📋 Notifications fetched:', notificationsRes.data);
@@ -113,8 +114,8 @@ const NotificationBell = () => {
         setTimeout(async () => {
           try {
             const [notificationsRes, unreadRes] = await Promise.all([
-              axios.get(`http://localhost:5000/api/notifications/${userId}`),
-              axios.get(`http://localhost:5000/api/notifications/unread/${userId}`)
+              axios.get(`${API_URL}/api/notifications/${userId}`),
+              axios.get(`${API_URL}/api/notifications/unread/${userId}`)
             ]);
 
             setNotifications(notificationsRes.data);
@@ -161,8 +162,8 @@ const NotificationBell = () => {
         setTimeout(async () => {
           try {
             const [notificationsRes, unreadRes] = await Promise.all([
-              axios.get(`http://localhost:5000/api/notifications/${userId}`),
-              axios.get(`http://localhost:5000/api/notifications/unread/${userId}`)
+              axios.get(`${API_URL}/api/notifications/${userId}`),
+              axios.get(`${API_URL}/api/notifications/unread/${userId}`)
             ]);
 
             setNotifications(notificationsRes.data);
@@ -196,7 +197,7 @@ const NotificationBell = () => {
     if (!loading && userId) {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/api/notifications/${userId}`);
+        const response = await axios.get(`${API_URL}/api/notifications/${userId}`);
         setNotifications(response.data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
@@ -212,7 +213,7 @@ const NotificationBell = () => {
 
   const markAsRead = async (notificationId) => {
     try {
-      await axios.put(`http://localhost:5000/api/notifications/read/${notificationId}`);
+      await axios.put(`${API_URL}/api/notifications/read/${notificationId}`);
       
       // Update local state
       setNotifications(prev => 
@@ -232,7 +233,7 @@ const NotificationBell = () => {
     if (!userId) return;
     
     try {
-      await axios.put(`http://localhost:5000/api/notifications/read-all/${userId}`);
+      await axios.put(`${API_URL}/api/notifications/read-all/${userId}`);
       
       // Update local state
       setNotifications(prev => 
@@ -253,8 +254,8 @@ const NotificationBell = () => {
     try {
       console.log('Force refreshing notifications for user:', userId);
       const [notificationsRes, unreadRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/notifications/${userId}`),
-        axios.get(`http://localhost:5000/api/notifications/unread/${userId}`)
+        axios.get(`${API_URL}/api/notifications/${userId}`),
+        axios.get(`${API_URL}/api/notifications/unread/${userId}`)
       ]);
 
       console.log('Force refresh - Notifications fetched:', notificationsRes.data);

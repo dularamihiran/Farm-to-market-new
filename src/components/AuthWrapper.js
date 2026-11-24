@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '../auth/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config/apiBase';
 
 function AuthWrapper({ children }) {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -30,7 +31,7 @@ function AuthWrapper({ children }) {
         let userRole = null;
         try {
           console.log(`AuthWrapper: Checking user ${user.sub}`);
-          const res = await axios.get(`http://localhost:5000/api/users/check/${user.sub}`);
+          const res = await axios.get(`${API_URL}/api/users/check/${user.sub}`);
           userExists = res.data.exists;
           userRole = res.data.role;
           console.log(`AuthWrapper: User exists? ${userExists}, Role: ${userRole}`);

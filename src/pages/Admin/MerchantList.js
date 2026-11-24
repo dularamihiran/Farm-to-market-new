@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from '../../config/apiBase';
 
 const MerchantList = () => {
   const [merchants, setMerchants] = useState([]);
@@ -9,7 +10,7 @@ const MerchantList = () => {
   const fetchMerchants = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/admin/users/merchant");
+      const res = await axios.get(`${API_URL}/api/admin/users/merchant`);
       setMerchants(res.data);
       setError(null);
     } catch (err) {
@@ -22,7 +23,7 @@ const MerchantList = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`);
+      await axios.delete(`${API_URL}/api/admin/users/${id}`);
       setMerchants(merchants.filter(m => m._id !== id));
     }
   };

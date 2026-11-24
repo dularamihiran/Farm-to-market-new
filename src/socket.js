@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
+import { API_URL } from './config/apiBase';
 
-const socket = io('http://localhost:5000'); // Replace with your backend URL in production
+const socket = io(API_URL); // Replace with your backend URL in production
 
 // Socket event handlers for product updates
 export const setupProductUpdateListeners = (updateCartItem, updateProductInList) => {

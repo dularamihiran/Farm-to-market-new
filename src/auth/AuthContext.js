@@ -1,9 +1,10 @@
 // Local (self-hosted) authentication. Exposes an API compatible with the
 // previous Auth0 hook so existing components keep working unchanged.
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { API_URL } from '../config/apiBase';
 
 const SESSION_KEY = 'harvest_session';
-const API = 'http://localhost:5000/api/auth';
+const API = `${API_URL}/api/auth`;
 
 const AuthContext = createContext(null);
 

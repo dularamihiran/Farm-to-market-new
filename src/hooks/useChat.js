@@ -2,8 +2,9 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
 import { chatService } from '../services/chatService';
+import { API_URL } from '../config/apiBase';
 
-const socket = io('http://localhost:5000');
+const socket = io(API_URL);
 
 export const useChat = (currentUserId, targetUserId, targetUser) => {
   const [messages, setMessages] = useState([]);
@@ -20,7 +21,7 @@ export const useChat = (currentUserId, targetUserId, targetUser) => {
     try {
       console.log('🔄 Loading conversation between:', { user1, user2 });
       
-      const response = await axios.get(`http://localhost:5000/api/messages/${user1}/${user2}?requestingUserId=${user1}`);
+      const response = await axios.get(`${API_URL}/api/messages/${user1}/${user2}?requestingUserId=${user1}`);
       console.log('📥 API Response:', response.data);
       
       // Handle both possible response formats
@@ -94,7 +95,7 @@ export const useChat = (currentUserId, targetUserId, targetUser) => {
     if (!currentUserId || !targetUserId) return;
     
     try {
-      await axios.put(`http://localhost:5000/api/notifications/read-messages/${currentUserId}/${targetUserId}`);
+      await axios.put(`${API_URL}/api/notifications/read-messages/${currentUserId}/${targetUserId}`);
     } catch (error) {
       console.error('Error marking message notifications as read:', error);
     }
@@ -250,7 +251,7 @@ export const useChat = (currentUserId, targetUserId, targetUser) => {
         
         // Mark as read if receiver
         if (message.receiverId === currentUserId) {
-          axios.put(`http://localhost:5000/api/messages/read/${currentUserId}/${message.senderId}`)
+          axios.put(`${API_URL}/api/messages/read/${currentUserId}/${message.senderId}`)
             .catch(err => console.error('Error marking message as read:', err));
         }
       }

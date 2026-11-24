@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from '../auth/AuthContext';
 import { Snackbar, Alert } from '@mui/material';
 import axios from "axios";
+import { API_URL } from '../config/apiBase';
 
 const ProfilePage = () => {
   const { user, isAuthenticated } = useAuth0();
@@ -27,7 +28,7 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       if (isAuthenticated && user?.sub) {
         try {
-          const res = await axios.get(`http://localhost:5000/api/users/${user.sub}`);
+          const res = await axios.get(`${API_URL}/api/users/${user.sub}`);
           setProfile({
             name: res.data.name || "",
             email: res.data.email || user.email,
@@ -65,7 +66,7 @@ const ProfilePage = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/api/users/${user.sub}`, profile);
+      const response = await axios.put(`${API_URL}/api/users/${user.sub}`, profile);
       if (response.status === 200 || response.status === 204) {
         showSnackbar("Profile updated successfully!", "success");
         setEditing(false);

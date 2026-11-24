@@ -28,6 +28,7 @@ import {
   Route as RouteIcon,
   Done as CompletedIcon
 } from '@mui/icons-material';
+import { API_URL } from '../../config/apiBase';
 
 export const formatPickupLocations = (selectedItems) => {
   if (!selectedItems || selectedItems.length === 0) {
@@ -89,9 +90,9 @@ const AcceptedBookings = () => {
     
     try {
       console.log('✅ Attempting to complete booking:', bookingId);
-      console.log('✅ Request URL:', `http://localhost:5000/api/bookings/${bookingId}/complete`);
+      console.log('✅ Request URL:', `${API_URL}/api/bookings/${bookingId}/complete`);
       
-      const response = await axios.put(`http://localhost:5000/api/bookings/${bookingId}/complete`);
+      const response = await axios.put(`${API_URL}/api/bookings/${bookingId}/complete`);
       console.log('📋 Completion response:', response.data);
       console.log('📋 Response status:', response.status);
       

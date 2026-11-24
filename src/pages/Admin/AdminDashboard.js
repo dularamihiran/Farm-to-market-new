@@ -29,6 +29,7 @@ import {
   AdminPanelSettings,
   Dashboard as DashboardIcon
 } from "@mui/icons-material";
+import { API_URL } from '../../config/apiBase';
 
 const cardStyle = {
   flex: "1 1 200px",
@@ -124,12 +125,12 @@ const AdminDashboard = () => {
         setLoading(true);
         
         // Fetch user counts
-        const countsRes = await axios.get("http://localhost:5000/api/admin/user-counts");
+        const countsRes = await axios.get(`${API_URL}/api/admin/user-counts`);
         setCounts(countsRes.data);
         
         // Fetch analytics data from public endpoint (no authentication needed)
         try {
-          const analyticsRes = await axios.get("http://localhost:5000/api/admin/analytics-basic");
+          const analyticsRes = await axios.get(`${API_URL}/api/admin/analytics-basic`);
           console.log('Analytics response:', analyticsRes.data);
           setAnalytics(analyticsRes.data);
         } catch (analyticsError) {

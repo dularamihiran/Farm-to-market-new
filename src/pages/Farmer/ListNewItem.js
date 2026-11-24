@@ -34,6 +34,7 @@ import {
   Category as CategoryIcon,
   DriveFileRenameOutline as NameIcon
 } from "@mui/icons-material";
+import { API_URL } from '../../config/apiBase';
 
 const ListNewItem = () => {
   const [formData, setFormData] = useState({
@@ -68,7 +69,7 @@ const ListNewItem = () => {
   // Save user location for future use
   const saveUserLocation = async (locationData) => {
     try {
-      await axios.put(`http://localhost:5000/api/users/${user.sub}/location`, {
+      await axios.put(`${API_URL}/api/users/${user.sub}/location`, {
         location: {
           coordinates: locationData.coordinates,
           address: locationData.address,
@@ -126,7 +127,7 @@ const ListNewItem = () => {
 
       // Submit product
       const response = await axios.post(
-        "http://localhost:5000/api/products",
+        `${API_URL}/api/products`,
         productData,
         {
           headers: {

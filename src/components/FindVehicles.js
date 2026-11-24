@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getVehicles, createBooking } from "../services/api";
 import placeholderImage from "../assets/lorry.jpg";
 import axios from "axios";
+import { API_URL } from '../config/apiBase';
 import { useAuth0 } from '../auth/AuthContext';
 import {
   Box,
@@ -28,7 +29,7 @@ import {
 import { ArrowBack } from "@mui/icons-material";
 import LocateMe from "../components/LocateMe"; // Import LocateMe component
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || API_URL;
 
 const allDistricts = [
   "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo", "Galle",
@@ -108,7 +109,7 @@ const FindVehicles = ({ selectedOrders, onBack, user: userProp }) => {
             // Try to get farmer's location as fallback
             if (selectedConfirmedBid.farmerId) {
               try {
-                const farmerResponse = await axios.get(`http://localhost:5000/api/users/${selectedConfirmedBid.farmerId}`);
+                const farmerResponse = await axios.get(`${API_URL}/api/users/${selectedConfirmedBid.farmerId}`);
                 if (farmerResponse.data.location) {
                   setProductDetails({
                     location: farmerResponse.data.location

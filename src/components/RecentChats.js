@@ -20,6 +20,7 @@ import {
   LocalShipping as TruckIcon
 } from '@mui/icons-material';
 import axios from 'axios';
+import { API_URL } from '../config/apiBase';
 
 const RecentChats = ({ userId, onChatSelect, refreshTrigger }) => {
   const [recentChats, setRecentChats] = useState([]);
@@ -102,7 +103,7 @@ const RecentChats = ({ userId, onChatSelect, refreshTrigger }) => {
     try {
       setError(null);
       console.log('🔍 Fetching recent chats for userId:', userId);
-      const response = await axios.get(`http://localhost:5000/api/messages/recent/${userId}`);
+      const response = await axios.get(`${API_URL}/api/messages/recent/${userId}`);
       
       if (!mountedRef.current) return;
 

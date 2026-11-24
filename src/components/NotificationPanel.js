@@ -31,6 +31,7 @@ import {
   formatNotificationTime 
 } from '../hooks/useNotificationHandler';
 import axios from 'axios';
+import { API_URL } from '../config/apiBase';
 
 /**
  * Enhanced NotificationPanel component with comprehensive navigation
@@ -58,8 +59,8 @@ const NotificationPanel = ({ userRole = 'farmer', userId }) => {
     try {
       setLoading(true);
       const [notificationsRes, unreadRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/notifications/${userId}`),
-        axios.get(`http://localhost:5000/api/notifications/unread/${userId}`)
+        axios.get(`${API_URL}/api/notifications/${userId}`),
+        axios.get(`${API_URL}/api/notifications/unread/${userId}`)
       ]);
 
       const sortedNotifications = notificationsRes.data.sort((a, b) => {
@@ -85,7 +86,7 @@ const NotificationPanel = ({ userRole = 'farmer', userId }) => {
 
   const markAsRead = async (notificationId) => {
     try {
-      await axios.put(`http://localhost:5000/api/notifications/read/${notificationId}`);
+      await axios.put(`${API_URL}/api/notifications/read/${notificationId}`);
       
       setNotifications(prev => 
         prev.map(notif => 
@@ -101,7 +102,7 @@ const NotificationPanel = ({ userRole = 'farmer', userId }) => {
 
   const markAllAsRead = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/notifications/read-all/${userId}`);
+      await axios.put(`${API_URL}/api/notifications/read-all/${userId}`);
       
       setNotifications(prev => 
         prev.map(notif => ({ ...notif, isRead: true }))

@@ -34,6 +34,7 @@ import {
   Email,
   Person 
 } from '@mui/icons-material';
+import { API_URL } from '../config/apiBase';
 
 const ContactMessagesAdmin = () => {
   const [messages, setMessages] = useState([]);
@@ -49,8 +50,8 @@ const ContactMessagesAdmin = () => {
     try {
       setLoading(true);
       const url = statusFilter 
-        ? `http://localhost:5000/api/contact/admin/all?status=${statusFilter}`
-        : 'http://localhost:5000/api/contact/admin/all';
+        ? `${API_URL}/api/contact/admin/all?status=${statusFilter}`
+        : `${API_URL}/api/contact/admin/all`;
       
       const response = await fetch(url);
       const result = await response.json();
@@ -70,7 +71,7 @@ const ContactMessagesAdmin = () => {
 
   const fetchStats = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/contact/admin/stats');
+      const response = await fetch(`${API_URL}/api/contact/admin/stats`);
       const result = await response.json();
       
       if (result.success) {
@@ -88,7 +89,7 @@ const ContactMessagesAdmin = () => {
 
   const handleStatusUpdate = async (messageId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/contact/admin/${messageId}/status`, {
+      const response = await fetch(`${API_URL}/api/contact/admin/${messageId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

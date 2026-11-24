@@ -8,6 +8,7 @@ import { useAuth0 } from '../../auth/AuthContext';
 import PendingPayments from "./PendingPayments";
 import axios from "axios"; // Add this import
 import { updatePaymentStatus } from "../../services/orderService";
+import { API_URL } from '../../config/apiBase';
 
 // Helper functions for user-specific localStorage 
 const getUserKey = (userId, key) => `user_${userId}_${key}`;
@@ -207,7 +208,7 @@ const Payments = () => {
     // Fetch the hash from backend
     let hash = "";
     try {
-      const response = await axios.get("http://localhost:5000/api/payments/generate-hash", {
+      const response = await axios.get(`${API_URL}/api/payments/generate-hash`, {
         params: {
           orderId: orderId || "TEST_" + Math.floor(Math.random() * 10000),
           amount: amount.toFixed(2),
@@ -226,7 +227,7 @@ const Payments = () => {
       merchant_id: process.env.REACT_APP_PAYHERE_MERCHANT_ID || "1230340",
       return_url: "http://localhost:3000/merchant/purchase-history",
       cancel_url: "http://localhost:3000/merchant/payments",
-      notify_url: "http://localhost:5000/api/payments/payhere-notify",
+      notify_url: `${API_URL}/api/payments/payhere-notify`,
       order_id: orderId || "TEST_" + Math.floor(Math.random() * 10000),
       items: "Farm Produce Payment",
       amount: amount.toFixed(2),

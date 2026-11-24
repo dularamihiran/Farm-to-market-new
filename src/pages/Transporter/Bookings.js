@@ -31,6 +31,7 @@ import {
   Cancel as RejectIcon,
   OpenInNew as OpenIcon
 } from '@mui/icons-material';
+import { API_URL } from '../../config/apiBase';
 
 export const formatPickupLocations = (selectedItems) => {
   if (!selectedItems || selectedItems.length === 0) {
@@ -92,7 +93,7 @@ const Bookings = () => {
     
     try {
       console.log('✅ Attempting to accept booking:', bookingId);
-      const response = await axios.put(`http://localhost:5000/api/bookings/${bookingId}/accept`);
+      const response = await axios.put(`${API_URL}/api/bookings/${bookingId}/accept`);
       console.log('📋 Acceptance response:', response.data);
       
       if (response.data.success) {
@@ -145,7 +146,7 @@ const Bookings = () => {
     
     try {
       console.log('🔴 Attempting to reject booking:', bookingId);
-      const response = await axios.put(`http://localhost:5000/api/bookings/${bookingId}/reject`);
+      const response = await axios.put(`${API_URL}/api/bookings/${bookingId}/reject`);
       console.log('📋 Rejection response:', response.data);
       
       if (response.data.success) {

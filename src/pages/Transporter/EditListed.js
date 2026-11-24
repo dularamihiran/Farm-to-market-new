@@ -27,6 +27,7 @@ import {
   DirectionsCar as CarIcon
 } from '@mui/icons-material';
 import './EditListed.css';
+import { API_URL } from '../../config/apiBase';
 
 // Memoized Vehicle Card Component to prevent unnecessary re-renders
 const VehicleCard = memo(({ vehicle, onEdit, onDelete }) => (
@@ -58,7 +59,7 @@ const VehicleCard = memo(({ vehicle, onEdit, onDelete }) => (
     }}>
       {vehicle.image ? (
         <img
-          src={vehicle.image.startsWith('data:') ? vehicle.image : `http://localhost:5000${vehicle.image}`}
+          src={vehicle.image.startsWith('data:') ? vehicle.image : `${API_URL}${vehicle.image}`}
           alt={vehicle.vehicleType}
           loading="lazy" // Add lazy loading for better performance
           style={{
@@ -245,7 +246,7 @@ const EditListed = () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
       
-      const response = await axios.get(`http://localhost:5000/api/vehicles?transporterId=${user.sub}`, {
+      const response = await axios.get(`${API_URL}/api/vehicles?transporterId=${user.sub}`, {
         signal: controller.signal,
         timeout: 10000 // Additional axios timeout
       });
@@ -309,14 +310,14 @@ const EditListed = () => {
       let response;
       if (editingVehicle) {
         // Update existing vehicle
-        response = await axios.put(`http://localhost:5000/api/vehicles/${editingVehicle._id}`, vehicleData, {
+        response = await axios.put(`${API_URL}/api/vehicles/${editingVehicle._id}`, vehicleData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
       } else {
         // Add new vehicle
-        response = await axios.post('http://localhost:5000/api/vehicles', vehicleData, {
+        response = await axios.post(`${API_URL}/api/vehicles`, vehicleData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -350,7 +351,7 @@ const EditListed = () => {
     
     try {
       setError(''); // Clear any previous errors
-      await axios.delete(`http://localhost:5000/api/vehicles/${vehicleId}`);
+      await axios.delete(`${API_URL}/api/vehicles/${vehicleId}`);
       
       // Clear cache when vehicles are modified
       try {

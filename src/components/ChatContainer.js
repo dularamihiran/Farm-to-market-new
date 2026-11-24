@@ -25,8 +25,9 @@ import {
 } from '@mui/icons-material';
 import io from 'socket.io-client';
 import './ChatContainer.css';
+import { API_URL } from '../config/apiBase';
 
-const socket = io('http://localhost:5000');
+const socket = io(API_URL);
 
 const ChatContainer = ({ currentUserId }) => {
   const location = useLocation();
@@ -97,7 +98,7 @@ const ChatContainer = ({ currentUserId }) => {
   // Fetch all users for dropdown
   useEffect(() => {
     setUsersLoading(true);
-    axios.get('http://localhost:5000/api/users')
+    axios.get(`${API_URL}/api/users`)
       .then(res => {
         setAllUsers(res.data);
         setUsersLoading(false);
@@ -170,7 +171,7 @@ const ChatContainer = ({ currentUserId }) => {
         // Mark message notifications from this user as read
         setTimeout(async () => {
           try {
-            await axios.put(`http://localhost:5000/api/notifications/read-messages/${currentUserId}/${chatWithUserId}`);
+            await axios.put(`${API_URL}/api/notifications/read-messages/${currentUserId}/${chatWithUserId}`);
             console.log('✅ Message notifications marked as read for user:', targetUser.name);
           } catch (error) {
             console.error('❌ Error marking message notifications as read:', error);

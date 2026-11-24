@@ -3,8 +3,9 @@ import { Badge, IconButton, Tooltip, Snackbar, Alert } from '@mui/material';
 import { Notifications as NotificationsIcon } from '@mui/icons-material';
 import axios from 'axios';
 import io from 'socket.io-client';
+import { API_URL } from '../config/apiBase';
 
-const socket = io('http://localhost:5000');
+const socket = io(API_URL);
 
 const NotificationBadge = ({ userId, onNotificationClick }) => {
   const [unreadCount, setUnreadCount] = useState(0);
@@ -17,7 +18,7 @@ const NotificationBadge = ({ userId, onNotificationClick }) => {
 
     const fetchUnreadCount = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/messages/unread/${userId}`);
+        const response = await axios.get(`${API_URL}/api/messages/unread/${userId}`);
         setUnreadCount(response.data.unreadCount);
       } catch (error) {
         console.error('Error fetching unread count:', error);

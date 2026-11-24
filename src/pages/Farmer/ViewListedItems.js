@@ -30,6 +30,7 @@ import {
   Add as AddIcon,
   ArrowBack
 } from "@mui/icons-material";
+import { API_URL } from '../../config/apiBase';
 
 const ListedItems = () => {
   const [products, setProducts] = useState([]);
@@ -48,7 +49,7 @@ const ListedItems = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`http://localhost:5000/api/products/farmer/${user.sub}`);
+      const response = await axios.get(`${API_URL}/api/products/farmer/${user.sub}`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -79,7 +80,7 @@ const ListedItems = () => {
       if (!editingProduct?._id) return;
 
       const response = await axios.put(
-        `http://localhost:5000/api/products/${editingProduct._id}`,
+        `${API_URL}/api/products/${editingProduct._id}`,
         {
           ...editForm,
           farmerID: user.sub
@@ -101,7 +102,7 @@ const ListedItems = () => {
     if (window.confirm("Are you sure you want to remove this product?")) {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/api/products/${productId}`
+          `${API_URL}/api/products/${productId}`
         );
 
         if (response.status === 200) {

@@ -21,6 +21,7 @@ import {
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import { API_URL } from '../../config/apiBase';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -52,7 +53,7 @@ const AcceptRejectBids = () => {
     setLoading(true);
     try {
       const farmerId = localStorage.getItem("user_id");
-      const response = await axios.get(`http://localhost:5000/api/bids?farmerId=${farmerId}`);
+      const response = await axios.get(`${API_URL}/api/bids?farmerId=${farmerId}`);
       let pending = response.data.filter(bid => bid.status === "Pending");
       pending = pending.sort((a, b) => {
         if (a.createdAt && b.createdAt) {
@@ -79,7 +80,7 @@ const AcceptRejectBids = () => {
       const farmerId = localStorage.getItem('user_id');
       console.log('Current farmer ID:', farmerId);
       
-      const endpoint = `http://localhost:5000/api/bids/${action.toLowerCase()}/${bidId}`;
+      const endpoint = `${API_URL}/api/bids/${action.toLowerCase()}/${bidId}`;
       const response = await axios.put(endpoint);
       
       if (response.data) {
@@ -119,10 +120,10 @@ const AcceptRejectBids = () => {
       const farmerId = localStorage.getItem('user_id');
       console.log('🔍 Checking notifications for farmer:', farmerId);
       
-      const response = await axios.get(`http://localhost:5000/api/notifications/${farmerId}`);
+      const response = await axios.get(`${API_URL}/api/notifications/${farmerId}`);
       console.log('📋 All notifications:', response.data);
       
-      const unreadResponse = await axios.get(`http://localhost:5000/api/notifications/unread/${farmerId}`);
+      const unreadResponse = await axios.get(`${API_URL}/api/notifications/unread/${farmerId}`);
       console.log('🔔 Unread count:', unreadResponse.data.unreadCount);
       
       // Show the latest 3 notifications
